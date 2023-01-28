@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        #id-upper-canvas {
+            border: 1px solid darkred;
+            position: absolute;
+        }
+
+        #id-lower-canvas {
+            position: absolute;
+        }
+    </style>
 </head>
 <body>
+    <canvas id="id-lower-canvas" width="500" height="500"> </canvas>
+    <canvas id="id-upper-canvas" width="500" height="500"> </canvas>
 
+    <div></div>
+    <script type="text/javascript">
+        const canvas = document.querySelector("#id-upper-canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.moveTo(75, 20)
+        ctx.lineTo(99, 40)
+        ctx.stroke()
+    </script>
 </body>
 </html>
