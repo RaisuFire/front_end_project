@@ -10,21 +10,58 @@
         }
 
         #id-lower-canvas {
+            border: 1px solid darkred;
             position: absolute;
+        }
+        .class-btns-group {
+            margin-top: 20px;
+        }
+        .class-canvas-container {
+            height: 500px;
         }
     </style>
 </head>
 <body>
-    <canvas id="id-lower-canvas" width="500" height="500"> </canvas>
-    <canvas id="id-upper-canvas" width="500" height="500"> </canvas>
+    <div class="class-canvas-container">
+        <canvas id="id-lower-canvas" width="500" height="500"> </canvas>
+        <canvas id="id-upper-canvas" width="500" height="500"> </canvas>
+    </div>
 
-    <div></div>
+    <div class="class-btns-group">
+        <button id="id-line" >直线</button>
+    </div>
+
+
     <script type="text/javascript">
-        const canvas = document.querySelector("#id-upper-canvas");
-        const ctx = canvas.getContext("2d");
-        ctx.moveTo(75, 20)
-        ctx.lineTo(99, 40)
-        ctx.stroke()
+        const __main = () => {
+            const canvas = document.querySelector("#id-upper-canvas");
+            const ctx = canvas.getContext("2d");
+
+            let p = null
+            canvas.addEventListener('mousedown', function(e) {
+                p = getCursorPosition(canvas, e)
+            })
+
+            canvas.addEventListener('mousemove', function (e) {
+
+            })
+
+            function getCursorPosition(canvas, event) {
+                const rect = canvas.getBoundingClientRect()
+                const x = event.clientX - rect.left
+                const y = event.clientY - rect.top
+                return {x: x, y: y}
+            }
+
+            // let lineBtn = document.querySelector("#id-line")
+            // lineBtn.addEventListener("click", function () {
+            //
+            // })
+        }
+
+        __main()
+
+
     </script>
 </body>
 </html>
