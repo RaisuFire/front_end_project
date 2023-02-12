@@ -20,13 +20,32 @@
     <canvas id="id-canvas" width="500" height="500"> </canvas>
 
     <div class="class-btns">
-        <button>画笔</button>
+        <button id="pen">画笔</button>
         <button id="line">直线</button>
-        <button>曲线</button>
-        <button>矩形</button>
-        <button>圆</button>
-        <button>清空</button>
+        <button id="curve">曲线</button>
+        <button id="rect">矩形</button>
+        <button id="round_rect">圆角矩形</button>
+        <button id="ellipse">椭圆</button>
+        <button id="clear">清空</button>
     </div>
-    <script src="./js/index.js" type="text/javascript"></script>
+<!--    <script src="./js/index.js" type="text/javascript"></script>-->
+
+<!--    paint-->
+    <script src="./js/paint.js" type="text/javascript"></script>
+    <script src="./js/control.js" type="text/javascript"></script>
+
+<!--    shape-->
+    <script src="./js/Shape/shape.js" type="text/javascript"></script>
+    <script src="./js/Shape/line.js" type="text/javascript"></script>
+    <script src="./js/Shape/rect.js" type="text/javascript"></script>
+    <script src="./js/Shape/ellipse.js" type="text/javascript"></script>
+    <script src="./js/Shape/point.js" type="text/javascript"></script>
+
+
+    <!--    util-->
+    <script src="./js/constant.js" type="text/javascript"></script>
+    <script src="./js/utils.js" type="text/javascript"></script>
+
+    <script src="./js/main.js" type="text/javascript"></script>
 </body>
 </html>
