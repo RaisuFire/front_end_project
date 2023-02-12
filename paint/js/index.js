@@ -1,17 +1,38 @@
+const State = {
+    Create: 0,
+    Edit: 1,
+    Complete: 2,
+}
+
 const Line = () => {
     let l = {
         x1: 0,
         y1: 0,
         x2: 0,
         y2: 0,
+        state: State.Create
     }
 
-    l.render = (context) => {
-        context.beginPath();
-        context.moveTo(l.x1, l.y1);
-        context.lineTo(l.x2, l.y2);
-        context.fill();
-        context.closePath()
+    l.setPoint1 = (x, y) => {
+        l.x1 = x
+        l.y1 = y
+    }
+
+    l.setPoint2 = (x, y) => {
+        l.x2 = x
+        l.y2 = y
+    }
+
+    l.setState = (state) => {
+        l.state = state
+    }
+
+    l.render = (ctx) => {
+        ctx.beginPath()
+        ctx.moveTo(l.x1, l.y1)
+        ctx.lineTo(l.x2, l.y2)
+        ctx.closePath()
+        ctx.stroke()
     }
     
     return l
@@ -20,7 +41,10 @@ const Line = () => {
 const Paint = () => {
     let paint = {
         actions: {},
-        types: {},
+        // 点击按钮时候，获取事件状态
+        types: {
+            "line": true,
+        },
     }
     let canvas = document.querySelector("#id-canvas");
     let context = canvas.getContext("2d");
@@ -42,38 +66,37 @@ const Paint = () => {
         return {x, y}
     }
 
-    canvas.addEventListener("mousedown", (e) => {
-        paint.getCursorPosition(canvas, e)
-    })
-
-    // window.addEventListener("mousedown", (e) => {
-    //     let target = e.target
-    //     if (target.tagName == "CANVAS") {
-    //         paint.getCursorPosition(canvas, e)
-    //     } else if (target.id == "id-line") {
-    //         paint.types["line"] = true
-    //     } else {
-    //
-    //     }
-    //     console.log("paint", paint.types)
-    //     // paint.getCursorPosition(canvas, e)
+    // canvas.addEventListener("mousedown", (e) => {
+    //     paint.getCursorPosition(canvas, e)
     // })
 
-    paint.renderCanvas = () => {
+    window.addEventListener("mousedown", (e) => {
+        let target = e.target
+        // 一次只能有一个事件
+        for (let k of Object.keys(paint.types)) {
+            if (target.id == k) {
+                paint.types[k] = true
+                paint.actions[k]()
+            }
+        }
+    })
+
+    paint.renderCanvas = (objs) => {
         paint.clear()
 
         context.save()
-        paint.renderObjects()
+        paint.renderObjects(objs)
         context.restore()
-
     }
 
     paint.clear = () => {
-        context.clearRect(0, 0, canvas.width, canvas.height``)
+        context.clearRect(0, 0, canvas.width, canvas.height)
     }
 
-    paint.renderObjects = (obj) => {
-        obj.render()
+    paint.renderObjects = (objs) => {
+        for (let o of objs) {
+            o.render(context)
+        }
     }
 
     // setInterval(() => {
@@ -102,18 +125,38 @@ const Paint = () => {
 }
 
 const __main = () => {
-    // 点击按钮获取事件， 一次只能获取一个事件
-
+    let objects = []
     let paint = Paint()
-    let line = Line()
-
-    let idLine = document.querySelector("#id-line")
 
     paint.registerAction("line", () => {
-        let p = paint.getCursorPosition()
-        console.log("p", p)
-        // console.log("x,y", x, y)
-        // line.render()
+        let line = {}
+        paint.canvas.addEventListener("mousedown", (e) => {
+            line = Line()
+            let p = paint.getCursorPosition(paint.canvas, e)
+            line.setPoint1(p.x, p.y)
+            line.setState(State.Edit)
+        })
+
+        paint.canvas.addEventListener("mousemove", (e) => {
+            let p = paint.getCursorPosition(paint.canvas, e)
+            if (line.state != State.Edit) {
+                return
+            }
+            line.setPoint2(p.x, p.y)
+            paint.renderCanvas(objects)
+            line.render(paint.context)
+        })
+
+        paint.canvas.addEventListener("mouseup", (e) => {
+            let p = paint.getCursorPosition(paint.canvas, e)
+            if (line.state == State.Edit) {
+                line.setPoint2(p.x, p.y)
+                line.setState(State.Complete)
+                objects.push(line)
+            }
+            paint.renderCanvas(objects)
+        })
+
     })
 
     paint.update = () => {
