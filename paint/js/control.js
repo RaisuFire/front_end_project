@@ -111,4 +111,47 @@ class Control {
 
     }
 
+    drawRoundRect() {
+        let roundRect = {}
+        let canvas = this.paint.canvas
+        let context = this.paint.context
+
+        canvas.addEventListener('mousedown', (e) => {
+            let p = getCursorPosition(canvas, e)
+            roundRect = new RoundRect(p.x, p.y)
+            roundRect.setState(State.Edit)
+        })
+
+        canvas.addEventListener('mousemove', (e) => {
+            let p = getCursorPosition(canvas, e)
+            if (roundRect.state != State.Edit) {
+                return
+            }
+            let w = Math.abs(roundRect.x - p.x)
+            let h = Math.abs(roundRect.y - p.y)
+            let r = (w + h) / 10
+            roundRect.setWidth(w)
+            roundRect.setHeight(h)
+            roundRect.setRadius(r)
+            this.paint.renderCanvas(this.objects)
+            roundRect.render(context)
+        })
+
+        canvas.addEventListener('mouseup', (e) => {
+            let p = getCursorPosition(canvas, e)
+            if (roundRect.state == State.Edit) {
+                let w = Math.abs(roundRect.x - p.x)
+                let h = Math.abs(roundRect.y - p.y)
+                let r = (w + h) / 10
+                roundRect.setWidth(w)
+                roundRect.setHeight(h)
+                roundRect.setRadius(r)
+                roundRect.setState(State.Complete)
+                this.objects.push(roundRect)
+            }
+            this.paint.renderCanvas(this.objects)
+        })
+
+    }
+
 }

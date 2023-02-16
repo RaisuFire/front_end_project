@@ -3,6 +3,7 @@ const __main = () => {
     "line": false,
     "rect": false,
     "ellipse": false,
+    "round_rect": false,
   }
   let paint = new Paint(types)
   let control = new Control(paint)
@@ -30,6 +31,11 @@ const __main = () => {
   paint.registerAction("ellipse", () => {
     control.drawEllipse()
   })
+
+  paint.registerAction("round_rect", () => {
+    control.drawRoundRect()
+  })
+
 }
 
 __main()

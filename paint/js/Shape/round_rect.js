@@ -8,35 +8,36 @@ class RoundRect extends Shape {
         this.radius = radius
     }
 
-    setX(x) {
+    setX (x) {
         this.x = x
     }
 
-    setY(y) {
+    setY (y) {
         this.y = y
     }
 
-    setWidth(width) {
+    setWidth (width) {
         this.width = width
     }
 
-    setHeight(height) {
+    setHeight (height) {
         this.height = height
     }
 
-    setRadius(radius) {
+    setRadius (radius) {
         this.radius = radius
     }
 
-    render(ctx) {
+    render (ctx) {
+        let {x, y, width, height, radius } = this
         super.render()
-        ctx.beginPath();
-          ctx.moveTo(x, y + radius);
-          ctx.arcTo(x, y + height, x + radius, y + height, radius);
-          ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
-          ctx.arcTo(x + width, y, x + width - radius, y, radius);
-          ctx.arcTo(x, y, x, y + radius, radius);
-          ctx.stroke();
+        ctx.beginPath()
+        ctx.moveTo(x, y + radius)
+        ctx.arcTo(x, y + height, x + radius, y + height, radius)
+        ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius)
+        ctx.arcTo(x + width, y, x + width - radius, y, radius)
+        ctx.arcTo(x, y, x, y + radius, radius)
+        ctx.stroke()
     }
-    
+
 }
