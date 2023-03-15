@@ -1,6 +1,5 @@
 class Shape {
-    constructor (paint) {
-        this.paint = paint
+    constructor () {
         this.state = State.Create
     }
 
@@ -17,9 +16,7 @@ class Shape {
         console.log(str)
     }
 
-    render(ctx) {
-        // let ctx = this.paint.context
+    render() {
 
     }
-
 }
