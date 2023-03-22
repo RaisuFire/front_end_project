@@ -1,34 +1,31 @@
 class Paint {
-    constructor (types) {
+    constructor (callback) {
         this.actions = {}
-        this.types = types
-        this.canvas = document.querySelector("#id-canvas");
-        this.context = this.canvas.getContext("2d");
+        // this.types = ['line', 'rect', 'ellipse', 'round_rect']
+        this.canvas = document.querySelector("#id-canvas")
+        this.context = this.canvas.getContext("2d")
+        this.control = null
+        this.callback = callback
+        this.callback(this)
 
         window.addEventListener("mousedown", (e) => {
             let target = e.target
             // 一次只能有一个事件
-            for (let k of Object.keys(this.types)) {
-                if (target.id == k) {
-                    this.types[k] = true
-                    this.actions[k]()
+            console.log("actions", this.actions[target.id])
+            for (let t of Types) {
+                if (target.id == t) {
+                    this.actions[t]()
                 }
             }
         })
     }
 
-    registerAction = (type, callback) => {
-        this.actions[type] = callback
+    setControl(c) {
+        this.control = c
     }
 
-    getCursorPosition = (canvas, event) => {
-        if (!canvas) {
-            return
-        }
-        let rect = canvas.getBoundingClientRect()
-        let x = event.clientX - rect.left
-        let y = event.clientY - rect.top
-        return {x, y}
+    registerAction = (type, callback) => {
+        this.actions[type] = callback
     }
 
     renderCanvas = (objs) => {

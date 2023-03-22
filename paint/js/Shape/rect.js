@@ -8,7 +8,7 @@ class Rect extends Shape {
         this.x1 = points[0]
         this.y1 = points[1]
         this.x2 = points[2]
-        this.y1 = points[2]
+        this.y2 = points[3]
     }
 
     setPoint1(point) {
